@@ -1,0 +1,118 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="controller.js"></script>
+<script src="pitchdetect.js"></script>
+
+<link rel="stylesheet" href="animate.css">
+		
+</head>
+
+<body>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      
+    </div>
+  </div>
+</nav>
+<div class="col-md-3"></div>
+
+<div class="col-md-6" ng-app="myApp" ng-controller="myCtrl">
+
+	<div class="form-group">
+		<div class="row">
+			<div class="col-md-4">
+				<label>Song</label>
+				<select class="form-control" ng-model="song" ng-change="songChanged()" ng-options="x.name for x in songChoices"></select>
+			</div>
+			<div class="col-md-2">
+				<label>Tempo</label>
+				<input class="form-control" type="number" ng-change="updateTempo()" ng-model="song.tempo">
+			</div>
+			
+			
+			<button style="float: right; vertical-align: bottom;" type="button" class="btn btn-default" ng-click="playSong()">Play Song <span class="glyphicon glyphicon-play-circle"></span></button>
+		</div>
+		<div class="row">
+			<div class="col-md-3">
+				<label>Show Notes</label>
+				<input class="form-check-input" type="checkbox" value="" ng-model="showNotes">
+			</div>
+			<div class="col-md-3">
+				<label>Show Me</label>
+				<input class="form-check-input" type="checkbox" value="" ng-model="showMe">
+			</div>
+			<div class="col-md-3">
+				<label>Show My Accuracy</label>
+				<input class="form-check-input" type="checkbox" value="" ng-model="showAccuracy">
+			</div>
+		</div>
+	</div>	
+	
+	
+	
+	<div class="row" >
+		<div class="col-md-3" ng-show="showNotes">
+			<div class="well">
+				This note is: <span> {{currentNote}}</span></p>
+			</div>
+		</div>
+		<div class="col-md-4" ng-show="showMe">
+			<div class="well">
+				You are playing: <span> {{noteDisplayMe}}</span></p>
+			</div>
+		</div>
+		<div ng-show="countdown != 0" class="col-md-4">
+			<h2 id="countdownDisplay" >Ready? <span id="countdownNumber"> {{countdown}}</span> </h2>
+		</div>
+		
+		<!-- <span>Want: {{noteLookingFor}} Playing: {{noteDisplay}}</span>  -->
+	</div>
+	
+	<div class="row">
+		
+		
+		<div class="col-md-2"> </div>
+	</div>
+	
+	<div class="row">
+		<canvas id="musicDisplay" width="700", height="300"></canvas>
+	</div>
+	
+	<div class="row">
+		<div class="col-md-4" ng-show="showAccuracy">
+			<div class="well">
+				<h2 id="accuracyDisplay">{{accuracyForNote}}</h2>
+			</div>
+		</div>
+	</div>
+	<!-- 
+	<canvas id="waveform" width="512" height="256"></canvas>
+ -->
+ 	<div class="row">
+		<div ng-hide="score == ''" id="scoreDisplay">
+			<h2 >Score: {{score}} %</h2>
+			<button ng-show="!showDetails" style="float: right;" type="button" class="btn btn-default" ng-click="showDetails = true">Show Details</button>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div id="scoreDetails" ng-show="showDetails">
+			<p>test - how do i want to display percentages for each note? do we include sharp and flat?</p>
+			
+			<button style="float: right; vertical-align: bottom;" type="button" class="btn btn-default" ng-click="showDetails = false">Hide Details</button>
+			
+		</div>
+	</div>
+</div>
+
+</body>
+</html>
