@@ -6,6 +6,7 @@ app.controller('myCtrl', function($scope) {
 	image = new Image();
 	$scope.score = "";
 	$scope.countdown = 0;
+	var noteIndex;
 	var square = {
 	        'x': 10,
 	        'y': 10,
@@ -117,8 +118,8 @@ app.controller('myCtrl', function($scope) {
 		image.src = $scope.song.image;
 		square.x = $scope.song.startPos;
 		square.y = 10;
-		$scope.noteIndex = 0;
-		$scope.currentNote = noteStrings[$scope.song.notes[$scope.noteIndex]%12];
+		noteIndex = 0;
+		$scope.currentNote = noteStrings[$scope.song.notes[noteIndex]%12];
 		render();
 		
 		$('#countdownDisplay').addClass('animated zoomIn');
@@ -149,7 +150,7 @@ app.controller('myCtrl', function($scope) {
 				$scope.countdown = 0;
 				
 				turnOnLiveInput();
-				$scope.currentNote = noteStrings[$scope.song.notes[$scope.noteIndex]%12];
+				$scope.currentNote = noteStrings[$scope.song.notes[noteIndex]%12];
 				$scope.$apply();
 				animate('x', $scope.song.endPos, $scope.song.duration);
 				
@@ -158,7 +159,7 @@ app.controller('myCtrl', function($scope) {
 				
 				function processSong() {
 					//advance noteIndex
-					if ($scope.noteIndex >= $scope.song.numNotes - 1) {
+					if (noteIndex >= $scope.song.numNotes - 1) {
 						clearInterval(interval);
 						console.log("final:");
 						console.log($scope.song.accuracy);
@@ -167,20 +168,20 @@ app.controller('myCtrl', function($scope) {
 						evaluate();
 					}
 					/*
-					nextEnd = $scope.song.startPos + (($scope.noteIndex + 1) * (($scope.song.endPos - $scope.song.startPos) / $scope.song.numNotes));
+					nextEnd = $scope.song.startPos + ((noteIndex + 1) * (($scope.song.endPos - $scope.song.startPos) / $scope.song.numNotes));
 					animationLength = $scope.song.duration / $scope.song.numNotes;
 					animate('x', nextEnd, animationLength);
 					*/
 					displayAccuracy();
-					$scope.noteIndex++;
+					noteIndex++;
 					
-					if ($scope.song.notes[$scope.noteIndex] == 0) {
+					if ($scope.song.notes[noteIndex] == 0) {
 						$scope.currentNote = "-";
 					}
 					else {
-						$scope.currentNote = noteStrings[$scope.song.notes[$scope.noteIndex]%12];
+						$scope.currentNote = noteStrings[$scope.song.notes[noteIndex]%12];
 					}
-					console.log("noteIndex: "+ $scope.noteIndex);
+					console.log("noteIndex: "+ noteIndex);
 					console.log("currentNote: "+ $scope.currentNote);
 					$scope.$apply();
 				}
@@ -191,7 +192,7 @@ app.controller('myCtrl', function($scope) {
 	
 	displayAccuracy = function() {
 		console.log("accuracy called");
-		var percentage = ($scope.song.accuracy[$scope.noteIndex] / $scope.song.totalChecks[$scope.noteIndex]) * 100;
+		var percentage = ($scope.song.accuracy[noteIndex] / $scope.song.totalChecks[noteIndex]) * 100;
 		if (percentage > 80) {
 			$scope.accuracyForNote = "Perfect!";
 			$("#accuracyDisplay").css("color", "orange");
@@ -223,21 +224,21 @@ app.controller('myCtrl', function($scope) {
 		
 		$scope.noteDisplayMe = noteStrings[note%12];
 		
-		if ($scope.noteIndex < $scope.song.numNotes) {
+		if (noteIndex < $scope.song.numNotes) {
 
 			//console.log(detune);
 			//console.log("note: " + note);
-			//console.log("noteIndex: " + $scope.noteIndex);
-			//console.log("song.notes[$scope.noteIndex]: " + $scope.song.notes[$scope.noteIndex]);
+			//console.log("noteIndex: " + noteIndex);
+			//console.log("song.notes[noteIndex]: " + $scope.song.notes[noteIndex]);
 			tolerance = 1;
-			$scope.song.totalChecks[$scope.noteIndex]++;
+			$scope.song.totalChecks[noteIndex]++;
 			//console.log("note % 12: " + note % 12);
-			//console.log("$scope.song.notes[$scope.noteIndex]%12: " + $scope.song.notes[$scope.noteIndex]%12);
-			if (( note % 12 > ($scope.song.notes[$scope.noteIndex] % 12) - tolerance ) && ( note % 12 < ($scope.song.notes[$scope.noteIndex] % 12) + tolerance )) {
+			//console.log("$scope.song.notes[noteIndex]%12: " + $scope.song.notes[noteIndex]%12);
+			if (( note % 12 > ($scope.song.notes[noteIndex] % 12) - tolerance ) && ( note % 12 < ($scope.song.notes[noteIndex] % 12) + tolerance )) {
 				//mod 12s here so we can do multiple octaves
 				//console.log("matching");
 				
-				$scope.song.accuracy[$scope.noteIndex]++;//detune;
+				$scope.song.accuracy[noteIndex]++;//detune;
 				
 			}
 			else {
