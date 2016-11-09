@@ -36,21 +36,37 @@ app.controller('myCtrl', function($scope) {
 	 * 
 	 */
 	
+	/*
+	 * A 81
+	 * B 83
+	 * C 84
+	 * D 86
+	 * E 88
+	 * F 89
+	 * G 79
+	 */
 	
 	bells = [88, 84, 86, 79, 79, 86, 88, 84, 88, 84, 86, 79, 79, 86, 88, 84]; //assume each note is a quarter note
 	accuracyArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	total = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-	$scope.song_campanille = {name:"Campanille", notes:bells, accuracy:accuracyArray, totalChecks:total, startPos:65, endPos:680, tempo:50, duration:19200, numNotes:16, image:"campanille.PNG"};
+	song_campanille = {name:"Campanille", notes:bells, accuracy:accuracyArray, totalChecks:total, startPos:65, endPos:680, tempo:50, duration:19200, numNotes:16, image:"campanille.PNG"};
 	
-	bells = [89, 89, 89, 89, 89, 89, 89, 89]; //assume each note is a quarter note
+	bells = [89, 89, 89, 89, 89, 89, 89, 89];
 	accuracyArray = [0, 0, 0, 0, 0, 0, 0, 0];
 	total = [0, 0, 0, 0, 0, 0, 0, 0];
-	$scope.song_monotone = {name:"Monotone", notes:bells, accuracy:accuracyArray, totalChecks:total, startPos:105, endPos:670, tempo:50, duration:9600, numNotes:8, image:"notes1.PNG"};
-	//will also need starting y position, image sizes, etc. 
-	//VERY custom to song. eek.
+	song_monotone = {name:"Monotone", notes:bells, accuracy:accuracyArray, totalChecks:total, startPos:105, endPos:670, tempo:50, duration:9600, numNotes:8, image:"notes1.PNG"};
 
-	$scope.songChoices = [$scope.song_campanille, $scope.song_monotone];
+	notes = [83, 81, 79, 79, 83, 81, 79, 79, 79, 79, 81, 81, 83, 81, 79, 79];
+	accuracyArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	total = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	song_hotcrossbuns = {name:"Hot Cross Buns", notes:notes, accuracy:accuracyArray, totalChecks:total, startPos:60, endPos:680, tempo:50, duration:19200, numNotes:16, image:"hotcrossbuns.PNG"};
+	
+	notes = [84, 84, 84, 79, 81, 81, 79, 0, 88, 88, 86, 86, 84];
+	accuracyArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	total = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	song_oldmcdonald = {name:"Old McDonald", notes:notes, accuracy:accuracyArray, totalChecks:total, startPos:65, endPos:585, tempo:90, duration:8667, numNotes:13, image:"oldmcdonald.PNG"};
 
+	$scope.songChoices = [song_campanille, song_monotone, song_hotcrossbuns, song_oldmcdonald];
 	
 	
 	var render = function() {
@@ -91,9 +107,7 @@ app.controller('myCtrl', function($scope) {
         // Start the animation
         return step();
       };
-      
-      
-      
+     
 	
 	$scope.playSong = function() {
 
@@ -152,10 +166,20 @@ app.controller('myCtrl', function($scope) {
 						$scope.accuracyForNote = "";
 						evaluate();
 					}
+					/*
+					nextEnd = $scope.song.startPos + (($scope.noteIndex + 1) * (($scope.song.endPos - $scope.song.startPos) / $scope.song.numNotes));
+					animationLength = $scope.song.duration / $scope.song.numNotes;
+					animate('x', nextEnd, animationLength);
+					*/
 					displayAccuracy();
 					$scope.noteIndex++;
 					
-					$scope.currentNote = noteStrings[$scope.song.notes[$scope.noteIndex]%12];
+					if ($scope.song.notes[$scope.noteIndex] == 0) {
+						$scope.currentNote = "-";
+					}
+					else {
+						$scope.currentNote = noteStrings[$scope.song.notes[$scope.noteIndex]%12];
+					}
 					console.log("noteIndex: "+ $scope.noteIndex);
 					console.log("currentNote: "+ $scope.currentNote);
 					$scope.$apply();
@@ -197,9 +221,7 @@ app.controller('myCtrl', function($scope) {
 
 	checkNote = function( note, detune ) {
 		
-		$scope.noteDisplay = note;
 		$scope.noteDisplayMe = noteStrings[note%12];
-		$scope.noteLookingFor = $scope.song.notes[$scope.noteIndex];
 		
 		if ($scope.noteIndex < $scope.song.numNotes) {
 
@@ -213,13 +235,13 @@ app.controller('myCtrl', function($scope) {
 			//console.log("$scope.song.notes[$scope.noteIndex]%12: " + $scope.song.notes[$scope.noteIndex]%12);
 			if (( note % 12 > ($scope.song.notes[$scope.noteIndex] % 12) - tolerance ) && ( note % 12 < ($scope.song.notes[$scope.noteIndex] % 12) + tolerance )) {
 				//mod 12s here so we can do multiple octaves
-				console.log("matching");
+				//console.log("matching");
 				
 				$scope.song.accuracy[$scope.noteIndex]++;//detune;
 				
 			}
 			else {
-				console.log("didn't match");
+				//console.log("didn't match");
 			}
 			
 		}
