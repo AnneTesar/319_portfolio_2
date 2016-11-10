@@ -105,7 +105,16 @@
 	
 	<div class="row">
 		<div id="scoreDetails" ng-show="showDetails">
-			<p>test - how do i want to display percentages for each note? do we include sharp and flat?</p>
+			<table style="border-collapse: separate; border-spacing: 10px;">
+				<tr>
+					<th>Note: </th>
+					<th ng-repeat="x in song.notes track by $index"> {{noteStringsScope[x%12]}} </th>
+				</tr>
+				<tr> 
+					<th>Your Accuracy: </th>
+					<td ng-repeat="x in song.accuracy track by $index">{{(x/song.totalChecks[$index])*100 | number:0 }}%</td>
+				</tr>
+			</table>
 			
 			<button style="float: right; vertical-align: bottom;" type="button" class="btn btn-default" ng-click="showDetails = false">Hide Details</button>
 			

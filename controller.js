@@ -19,7 +19,7 @@ app.controller('myCtrl', function($scope) {
 		$scope.song.duration = (60000 / $scope.song.tempo) * $scope.song.numNotes;
 	}
 
-	
+	$scope.noteStringsScope = noteStrings;
 	/*
 	 * The General Idea:
 	 * Every x milliseconds, advance the bar and get rid of the old one
@@ -49,22 +49,22 @@ app.controller('myCtrl', function($scope) {
 	
 	bells = [88, 84, 86, 79, 79, 86, 88, 84, 88, 84, 86, 79, 79, 86, 88, 84]; //assume each note is a quarter note
 	accuracyArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-	total = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	total = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 	song_campanille = {name:"Campanille", notes:bells, accuracy:accuracyArray, totalChecks:total, startPos:65, endPos:680, tempo:50, duration:19200, numNotes:16, image:"campanille.PNG"};
 	
 	bells = [89, 89, 89, 89, 89, 89, 89, 89];
 	accuracyArray = [0, 0, 0, 0, 0, 0, 0, 0];
-	total = [0, 0, 0, 0, 0, 0, 0, 0];
+	total = [1, 1, 1, 1, 1, 1, 1, 1];
 	song_monotone = {name:"Monotone", notes:bells, accuracy:accuracyArray, totalChecks:total, startPos:105, endPos:670, tempo:50, duration:9600, numNotes:8, image:"notes1.PNG"};
 
 	notes = [83, 81, 79, 79, 83, 81, 79, 79, 79, 79, 81, 81, 83, 81, 79, 79];
 	accuracyArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-	total = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	total = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 	song_hotcrossbuns = {name:"Hot Cross Buns", notes:notes, accuracy:accuracyArray, totalChecks:total, startPos:60, endPos:680, tempo:50, duration:19200, numNotes:16, image:"hotcrossbuns.PNG"};
 	
 	notes = [84, 84, 84, 79, 81, 81, 79, 0, 88, 88, 86, 86, 84];
 	accuracyArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-	total = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	total = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 	song_oldmcdonald = {name:"Old McDonald", notes:notes, accuracy:accuracyArray, totalChecks:total, startPos:65, endPos:585, tempo:90, duration:8667, numNotes:13, image:"oldmcdonald.PNG"};
 
 	$scope.songChoices = [song_campanille, song_monotone, song_hotcrossbuns, song_oldmcdonald];
